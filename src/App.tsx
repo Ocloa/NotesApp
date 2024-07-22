@@ -6,55 +6,96 @@
  */
 
 import React from 'react';
-import {View, Text, Button} from 'react-native';
-import ListItem from '../src/core/components/ListItem';
-import SearchBar from '../src/core/components/SearchBar';
+
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { createDrawerNavigator, DrawerItem } from '@react-navigation/drawer';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
+import { View, Text, StyleSheet } from 'react-native';
 
-type RootStackParamList = {
-  Home: undefined;
-  Details: undefined;
-}
+import FeedScreen from '../src/core/screens/FeedScreen'
+import CreateNoteScreen from './core/screens/CreateNoteScreen';
 
-type Props = NativeStackScreenProps<RootStackParamList>; 
+const Drawer = createDrawerNavigator();
 
-function HomeScreen({navigation}: Props): React.JSX.Element {
+function CustomDrawerContent(props: any){
+
+  return (
+    <DrawerContentScrollView {...props}>
+      <View>
+        <Text>*User Info*</Text>
+      </View>
+      <View style={styles.menuContainer}>
+        <View
+          style={[
+            styles.menuItemsCard,
+            { backgroundColor: 'rgba(200, 200, 255, 0.66)' },
+          ]}>
+          <>
+            <View style={{flex:1}}>
+              <DrawerItem
+                label="Home"
+                style={{flex: 1}}
+                onPress={() => {
+                  props.navigation.navigate('Home');
+                }}
+              />
+            </View>
+          </>
+        </View>
+        <View
+          style={[
+            styles.menuItemsCard,
+            { backgroundColor: 'rgba(200, 200, 255, 0.66)' },
+          ]}>
+          <>
+            <View style={{flex:1}}>
+              <DrawerItem
+                label="New Note"
+                style={{flex: 1}}
+                onPress={() => {
+                  props.navigation.navigate('New Note');
+                }}
+              />
+            </View>
+          </>
+        </View>
+      </View>
+    </DrawerContentScrollView>
+  );
+};
+
+function DrawerNavigator(){
   return(
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', gap: 50, backgroundColor: 'rgba(200,200,200,0.2)' }}>
-      <SearchBar></SearchBar>
-      <Text>Home Screen</Text>
-      <ListItem/>
-      <Button title='Страница деталей'
-      onPress={() => navigation.navigate('Details')}/>
-    </View>
+    <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props}/>} initialRouteName="Home">
+      <Drawer.Screen name="Home" component={FeedScreen} options={{title: "Главная страница" }}/>
+      <Drawer.Screen name="New Note" component={CreateNoteScreen} options={{title: "Новая заметка"}}/>
+    </Drawer.Navigator>
   )
-}
-
-function DetailsScreen({navigation}: Props): React.JSX.Element{
-  return(
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', gap: 50 }}>
-      <Text>This is Details Screen</Text>
-      <Button title='Домашняя страница'
-      onPress={() => navigation.navigate('Home')}/>
-    </View>
-      
-    
-  )
-}
-
-const Stack = createNativeStackNavigator();
+};
 
 function App(): React.JSX.Element {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} options={{title: "Главная страница" }}/>
-        <Stack.Screen name="Details" component={DetailsScreen}/>
-      </Stack.Navigator>
+      <DrawerNavigator/>
     </NavigationContainer>
   );
 }
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  menuContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    gap:1
+  },
+  menuItemsCard: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 export default App;
