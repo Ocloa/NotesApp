@@ -3,7 +3,6 @@ import React from 'react'
 
 
 const CreateNoteScreen = (): React.JSX.Element => {
-    const ScreenWidth = Dimensions.get('screen');
     return(
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', gap: 50 }}>
         <View style={{borderWidth: 1, flex: 1, width: '90%'}}>
