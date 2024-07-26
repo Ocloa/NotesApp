@@ -2,8 +2,6 @@ import { makeAutoObservable, action } from "mobx";
 
 interface Note {
     id: number,
-    title: string,
-    content: string
 }
 
 class NotesStore {
