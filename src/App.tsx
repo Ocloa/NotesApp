@@ -14,13 +14,14 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import FeedScreen from '../src/core/screens/FeedScreen'
 import CreateNoteScreen from './core/screens/CreateNoteScreen';
+import AuthScreen from './core/screens/AuthScreen';
 
 const Drawer = createDrawerNavigator();
 
 function CustomDrawerContent(props: any){
 
   return (
-    <DrawerContentScrollView {...props}>
+    <DrawerContentScrollView style={{backgroundColor: '#EFF1F3'}} {...props}>
       <View>
         <Text>*User Info*</Text>
       </View>
@@ -28,36 +29,50 @@ function CustomDrawerContent(props: any){
         <View
           style={[
             styles.menuItemsCard,
-            { backgroundColor: 'rgba(200, 200, 255, 0.66)' },
+            { backgroundColor: '#304F5F' },
           ]}>
-          <>
             <View style={{flex:1}}>
               <DrawerItem
                 label="Home"
+                labelStyle={{color: '#EFF1F3'}}
                 style={{flex: 1}}
                 onPress={() => {
                   props.navigation.navigate('Home');
                 }}
               />
             </View>
-          </>
         </View>
         <View
           style={[
             styles.menuItemsCard,
-            { backgroundColor: 'rgba(200, 200, 255, 0.66)' },
+            { backgroundColor: '#304F5F' },
           ]}>
-          <>
             <View style={{flex:1}}>
               <DrawerItem
                 label="New Note"
+                labelStyle={{color: '#EFF1F3'}}
                 style={{flex: 1}}
                 onPress={() => {
                   props.navigation.navigate('New Note');
                 }}
               />
             </View>
-          </>
+        </View>
+        <View
+          style={[
+            styles.menuItemsCard,
+            { backgroundColor: '#304F5F' },
+          ]}>
+            <View style={{flex:1}}>
+              <DrawerItem
+                label="Log in"
+                labelStyle={{color: '#EFF1F3'}}
+                style={{flex: 1}}
+                onPress={() => {
+                  props.navigation.navigate('Login');
+                }}
+              />
+            </View>
         </View>
       </View>
     </DrawerContentScrollView>
@@ -66,9 +81,10 @@ function CustomDrawerContent(props: any){
 
 function DrawerNavigator(){
   return(
-    <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props}/>} initialRouteName="Home">
-      <Drawer.Screen name="Home" component={FeedScreen} options={{title: "Главная страница" }}/>
+    <Drawer.Navigator drawerContent={ (props) => <CustomDrawerContent {...props}/>} initialRouteName="Home">
+      <Drawer.Screen name="Home" component={FeedScreen} options={{title: "Главная страница"}}/>
       <Drawer.Screen name="New Note" component={CreateNoteScreen} options={{title: "Новая заметка"}}/>
+      <Drawer.Screen name='Login' component={AuthScreen} options={{title: "Авторизация"}}/>
     </Drawer.Navigator>
   )
 };
@@ -85,6 +101,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#EFF1F3'
   },
   menuContainer: {
     flex: 1,

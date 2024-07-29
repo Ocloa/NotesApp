@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   noteSpace: {
     flex: 1,
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 10,
     opacity: 0.5,
     padding: 10,
     marginTop: 5,

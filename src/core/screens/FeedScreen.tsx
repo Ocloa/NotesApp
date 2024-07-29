@@ -9,7 +9,7 @@ import {
 
 import ListItem from '../components/NoteItem';
 import SearchBar from '../components/SearchBar';
-import notesStore from '../mobx/notesStore';
+import { notesStore } from '../mobx/notesStore';
 import React, { useRef, useEffect, useState } from 'react'
 
 import {observer} from 'mobx-react-lite'
@@ -41,7 +41,7 @@ const FeedScreen: React.FC = observer(() => {
   );
   
   return(
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', gap: 50, backgroundColor: 'rgba(200,200,200,0.2)' }}>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', gap: 50, backgroundColor: '#F1F8F9' }}>
       <SearchBar></SearchBar>
       <Text>Home Screen</Text>
 {/*}  <FlatList data={notesStore.notes}

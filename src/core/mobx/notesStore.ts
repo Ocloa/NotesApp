@@ -1,11 +1,7 @@
 import { makeAutoObservable, action } from "mobx";
 
-interface Note {
-    id: number,
-}
-
 class NotesStore {
-    notes: Note[] = [];
+    notes: {id: string, content: string} [] = []
     isLoading = false;
     error = '';
     
@@ -14,8 +10,13 @@ class NotesStore {
             fetchNotes: action,
             setLoading: action,
             setError: action,
-
         })
+    }
+    addNote = (note: {id: string; content: string}) => {
+        this.notes.push(note);
+    }
+    removeNote = (id: string) => {
+        this.notes = this.notes.filter(note => note.id !== id);
     }
     setLoading(isLoading: boolean) {
         this.isLoading = isLoading;
@@ -35,5 +36,4 @@ class NotesStore {
     }
 }
 
-const notesStore = new NotesStore();
-export default notesStore; 
+export const notesStore = new NotesStore();

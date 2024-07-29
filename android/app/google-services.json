@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "643245088119",
+    "project_id": "notesapp-afbec",
+    "storage_bucket": "notesapp-afbec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:643245088119:android:926a144000ab2eca4a1572",
+        "android_client_info": {
+          "package_name": "com.notesapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdbG4yhYV1w_IbJbW_xfA_uiAGCNQAanI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
