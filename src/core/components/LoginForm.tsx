@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
 import { LinearGradient } from 'react-native-linear-gradient'
-import React, { Component } from 'react'
+import React from 'react'
 
 const styles = StyleSheet.create({
     AuthInput: {
@@ -25,32 +25,19 @@ const styles = StyleSheet.create({
 
   })
 
-export class LoginForm extends Component {
-  render() {
+export const LoginForm = () => {
     return (
-        <View style={{flex:1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F8F9' }}>
-        <LinearGradient colors={['#F1F8F1', '#F1F8F9']} start={{x: 0, y:0.5}} style={{flex:0.5, borderRadius: 10}}>
-        <View style={{ borderWidth: 2, borderColor: '#FFFFFF', borderRadius: 10, flex:1, flexDirection: 'column', width: 300, justifyContent: 'center', alignItems:'center', gap:15, backgroundColor:'rgba(255, 241, 243, 0.5)'}}>
-        <Text>AuthScreen</Text>
-        <TextInput placeholder='Email' style={styles.AuthInput}></TextInput>
-        <TextInput placeholder='Password' secureTextEntry style={styles.AuthInput}></TextInput>
-        <Pressable style={styles.AuthButton}>
-            <Text style={{color: 'white', position: 'relative', top:'30%', fontWeight: 600, fontSize: 18}}>
-                Войти
-            </Text>
-        </Pressable>
-        <Pressable /*onPress={ Навигация или изменение на форму регистрации }*/>
-            <Text>
-                Регистрация
-            </Text>
-        </Pressable>
-        </View>
-        </LinearGradient>
-
-    </View>
+            <>
+                <Text>AuthScreen</Text>
+                <TextInput placeholder='Email' style={styles.AuthInput}></TextInput>
+                <TextInput placeholder='Password' secureTextEntry style={styles.AuthInput}></TextInput>
+                <Pressable style={styles.AuthButton}>
+                    <Text style={{color: 'white', position: 'relative', top:'30%', fontWeight: 600, fontSize: 18}}>
+                        Войти
+                    </Text>
+                </Pressable>
+            </>
   )
-  }
-  
 }
 
 export default LoginForm

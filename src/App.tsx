@@ -10,7 +10,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerItem } from '@react-navigation/drawer';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 
 import FeedScreen from '../src/core/screens/FeedScreen'
 import CreateNoteScreen from './core/screens/CreateNoteScreen';
@@ -21,7 +21,7 @@ const Drawer = createDrawerNavigator();
 function CustomDrawerContent(props: any){
 
   return (
-    <DrawerContentScrollView style={{backgroundColor: '#EFF1F3'}} {...props}>
+    <DrawerContentScrollView style={{backgroundColor: '#EFF1F3', flex:1}} {...props}>
       <View>
         <Text>*User Info*</Text>
       </View>
@@ -75,6 +75,11 @@ function CustomDrawerContent(props: any){
             </View>
         </View>
       </View>
+      <Pressable style={{position:'absolute', bottom: 0,}}>
+        <Text>
+          Logout
+        </Text>
+      </Pressable>
     </DrawerContentScrollView>
   );
 };
