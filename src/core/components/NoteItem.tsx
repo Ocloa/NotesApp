@@ -1,27 +1,29 @@
+
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
+
 
 const ListItem = () => {
   return (
-    <View
+    <Pressable
       style={styles.view}>
         <Text>List Item</Text>
-    </View>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create( {
     view: {
         flexDirection: 'row',
-        width: 200,
-        minHeight:40,
+        justifyContent: 'center',
+        width: '100%',
+        minHeight: '10%',
+        maxHeight: '15%',
         padding: 5,
-        borderWidth: 0.5,
-        borderRadius: 5,
-        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 10,
+        borderColor: '#EEEEEE',
         backgroundColor: 'rgba(255,255,255,0.7)',
-        shadowRadius: 50,
-        shadowColor: 'white'
     }
 })
 

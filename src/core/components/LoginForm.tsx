@@ -22,13 +22,17 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(48, 79, 95, 1)', 
         borderColor: '#FFFFFF'
     },
+    Text: {
+        fontWeight: 600,
+        fontSize: 22,
+    }
 
   })
 
 export const LoginForm = () => {
     return (
             <>
-                <Text>AuthScreen</Text>
+                <Text style={styles.Text}>Авторизация</Text>
                 <TextInput placeholder='Email' style={styles.AuthInput}></TextInput>
                 <TextInput placeholder='Password' secureTextEntry style={styles.AuthInput}></TextInput>
                 <Pressable style={styles.AuthButton}>

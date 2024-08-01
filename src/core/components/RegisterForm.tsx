@@ -29,13 +29,13 @@ export class RegisterForm extends Component {
   render() {
     return (
             <>
-                <Text>AuthScreen</Text>
+                <Text>Регистрация</Text>
                 <TextInput placeholder='Email' style={styles.AuthInput}></TextInput>
                 <TextInput placeholder='Password' secureTextEntry style={styles.AuthInput}></TextInput>
                 <TextInput placeholder='Confirm Password' secureTextEntry style={styles.AuthInput}></TextInput>
                 <Pressable style={styles.AuthButton}>
                     <Text style={{color: 'white', position: 'relative', top:'30%', fontWeight: 600, fontSize: 18}}>
-                        Регистрация
+                        Зарегистрироваться
                     </Text>
                 </Pressable>
             </>

@@ -17,6 +17,9 @@ class AuthStore {
     logout = async () => {
         await auth.signOut();
     }
+    signup = async (email: string, password: string) => {
+        await auth.createUserWithEmailAndPassword(email, password);
+    }
 }
 
 export const authStore = new AuthStore();
