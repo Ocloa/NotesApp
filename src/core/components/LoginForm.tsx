@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
-import { LinearGradient } from 'react-native-linear-gradient'
-import React from 'react'
+import { StyleSheet, Text, Alert, TextInput, Pressable } from 'react-native'
+import { signInWithEmailPassword } from '../authService';
+import React, { useState } from 'react'
 
 const styles = StyleSheet.create({
     AuthInput: {
@@ -29,13 +29,25 @@ const styles = StyleSheet.create({
 
   })
 
-export const LoginForm = () => {
+export const LoginForm: React.FC = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleSignIn = async () => {
+        try {
+          await signInWithEmailPassword(email, password);
+          Alert.alert('Login successful');
+        } catch (error) {
+          Alert.alert('Login failed');
+        }
+      };
+    
     return (
             <>
                 <Text style={styles.Text}>Авторизация</Text>
-                <TextInput placeholder='Email' style={styles.AuthInput}></TextInput>
-                <TextInput placeholder='Password' secureTextEntry style={styles.AuthInput}></TextInput>
-                <Pressable style={styles.AuthButton}>
+                <TextInput placeholder='Email' value={email} onChangeText={setEmail} style={styles.AuthInput}></TextInput>
+                <TextInput placeholder='Password' value={password} onChangeText={setPassword} secureTextEntry style={styles.AuthInput}></TextInput>
+                <Pressable onPress={handleSignIn} style={styles.AuthButton}>
                     <Text style={{color: 'white', position: 'relative', top:'30%', fontWeight: 600, fontSize: 18}}>
                         Войти
                     </Text>

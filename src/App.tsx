@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerItem } from '@react-navigation/drawer';
@@ -14,9 +14,12 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 
 import FeedScreen from '../src/core/screens/FeedScreen'
 import CreateNoteScreen from './core/screens/CreateNoteScreen';
+import LoginScreen from './core/screens/LoginScreen';
+import RegisterScreen from './core/screens/RegisterScreen';
 import AuthScreen from './core/screens/AuthScreen';
 
 const Drawer = createDrawerNavigator();
+
 
 function CustomDrawerContent(props: any){
 
@@ -74,6 +77,22 @@ function CustomDrawerContent(props: any){
               />
             </View>
         </View>
+        <View
+          style={[
+            styles.menuItemsCard,
+            { backgroundColor: '#304F5F' },
+          ]}>
+            <View style={{flex:1}}>
+              <DrawerItem
+                label="Register"
+                labelStyle={{color: '#EFF1F3'}}
+                style={{flex: 1}}
+                onPress={() => {
+                  props.navigation.navigate('Register');
+                }}
+              />
+            </View>
+        </View>
       </View>
       <Pressable style={{position:'absolute', bottom: 0,}}>
         <Text>
@@ -89,7 +108,8 @@ function DrawerNavigator(){
     <Drawer.Navigator drawerContent={ (props) => <CustomDrawerContent {...props}/>} initialRouteName="Home">
       <Drawer.Screen name="Home" component={FeedScreen} options={{title: "Главная страница"}}/>
       <Drawer.Screen name="New Note" component={CreateNoteScreen} options={{title: "Новая заметка"}}/>
-      <Drawer.Screen name='Login' component={AuthScreen} options={{title: "Авторизация"}}/>
+      <Drawer.Screen name='Login' component={LoginScreen} options={{title: "Авторизация"}}/>
+      <Drawer.Screen name='Register' component={RegisterScreen} options={{title: "Регистрация"}}/>
     </Drawer.Navigator>
   )
 };

@@ -1,6 +1,10 @@
-import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
-import { LinearGradient } from 'react-native-linear-gradient'
-import React, { Component } from 'react'
+import { StyleSheet, Text, View, TextInput, Pressable, Alert } from 'react-native'
+import { registerWithEmailPassword, createNotesCollectionForUser } from '../authService';
+import React, { useState } from 'react'
+
+const [email, setEmail] = useState('');
+const [password, setPassword] = useState('');
+
 
 const styles = StyleSheet.create({
     AuthInput: {
@@ -24,25 +28,31 @@ const styles = StyleSheet.create({
     },
 
   })
-
-export class RegisterForm extends Component {
-  render() {
-    return (
-            <>
-                <Text>Регистрация</Text>
-                <TextInput placeholder='Email' style={styles.AuthInput}></TextInput>
-                <TextInput placeholder='Password' secureTextEntry style={styles.AuthInput}></TextInput>
-                <TextInput placeholder='Confirm Password' secureTextEntry style={styles.AuthInput}></TextInput>
-                <Pressable style={styles.AuthButton}>
-                    <Text style={{color: 'white', position: 'relative', top:'30%', fontWeight: 600, fontSize: 18}}>
-                        Зарегистрироваться
-                    </Text>
-                </Pressable>
-            </>
-
-  )
-  }
+export const RegisterForm: React.FC = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
   
-}
+    const handleSignUp = async () => {
+      try {
+        await registerWithEmailPassword(email, password);
+        Alert.alert('Registration successful');
+      } catch (error) {
+        Alert.alert('Registration failed');
+      }
+    };
+  
+    return (
+      <View>
+        <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={styles.AuthInput} />
+        <TextInput placeholder="Password" value={password} onChangeText={setPassword} style={styles.AuthInput} secureTextEntry />
+        <Pressable style={styles.AuthButton} onPress={handleSignUp}>
+            <Text style={{color: 'white', position: 'relative', top:'30%', fontWeight: 600, fontSize: 18}}>
+            Зарегистрироваться
+            </Text>
+        </Pressable>
+      </View>
+    );
+  };
+  
 
 export default RegisterForm
