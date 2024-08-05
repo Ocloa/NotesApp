@@ -1,4 +1,5 @@
 import { makeAutoObservable, action } from "mobx";
+import { auth } from "../../firebase/config";
 import firestore from '@react-native-firebase/firestore';
 
 interface Note {
@@ -46,9 +47,19 @@ class NotesStore {
         }
       }
     
-      async addNote(userId: string, note: Note) {
-        await firestore().collection('users').doc(userId).collection('notes').add(note);
-        // После добавления заметки можно обновить список заметок или просто добавить новую заметку в текущий список
+      async addNote(noteContent: Note) {
+        const user = await auth.currentUser; // Получаем текущего пользователя
+        if (!user) {
+          console.log('No user is signed-in');
+          return;
+        }
+      
+        const noteData = {
+          content: noteContent,
+        };
+      
+        await firestore().collection(`users/${user.uid}/notes`).add(noteData);
+        console.log('Note added successfully');
       }
     
       async updateNote(userId: string, noteId: string, updatedNote: Partial<Note>) {
