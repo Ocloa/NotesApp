@@ -5,7 +5,7 @@ import { RegisterForm } from '../components/RegisterForm'
 import React, { useState, useEffect } from 'react'
 import Animated, {Easing} from 'react-native-reanimated'
 import { useSharedValue, useAnimatedStyle, withTiming, } from 'react-native-reanimated'
-import { authStore } from '../mobx/authStore'
+import authStore  from '../mobx/authStore'
 import { Auth } from 'firebase/auth'
 
 

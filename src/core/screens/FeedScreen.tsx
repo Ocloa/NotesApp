@@ -13,12 +13,15 @@ import { notesStore } from '../mobx/notesStore';
 import React, { useRef, useEffect, useState } from 'react'
 
 import {observer} from 'mobx-react-lite'
+import { useNavigation } from '@react-navigation/native';
+import authStore  from '../mobx/authStore';
 
 interface NotesListProps {
   userId: string;
 }
 
-const FeedScreen: React.FC = observer(() => {
+const FeedScreen = observer(() => {
+  const navigation = useNavigation();
   const FlatListRef = useRef<FlatList>(null)
   const [selectedNote, setSelectedNote] = useState<{id: string} | null>(null);
 
@@ -34,11 +37,26 @@ const FeedScreen: React.FC = observer(() => {
       <Text>{item.id}</Text>
     </TouchableOpacity>
   );
+
+  useEffect(() => {
+    if (authStore?.user) {
+      notesStore.fetchNotes(authStore.user.uid);
+    }
+  }, []);
+
   
   return(
     <View style={{flex: 1, alignItems: 'center', padding: 5, gap: 10, backgroundColor: '#F1F8F9' }}>
       <SearchBar></SearchBar>
-      <NotesList title='123' userId='WkpJf1vVxYYmJmK5RQQG'/>
+      <FlatList
+      data={notesStore.notes}
+      keyExtractor={(item) => item.id!}
+      renderItem={({item}) => (
+        <View>
+          <Text>{item.title}</Text>
+          <Text>{item.content}</Text>
+        </View>
+      )}/>
 
 {/*}  <FlatList data={notesStore.notes}
       renderItem={renderItem}

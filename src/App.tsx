@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerItem } from '@react-navigation/drawer';
@@ -16,7 +16,7 @@ import FeedScreen from '../src/core/screens/FeedScreen'
 import CreateNoteScreen from './core/screens/CreateNoteScreen';
 import LoginScreen from './core/screens/LoginScreen';
 import RegisterScreen from './core/screens/RegisterScreen';
-import AuthScreen from './core/screens/AuthScreen';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 const Drawer = createDrawerNavigator();
 
@@ -115,6 +115,18 @@ function DrawerNavigator(){
 };
 
 function App(): React.JSX.Element {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+
+  useEffect(() => {
+    auth().onAuthStateChanged(userState => {
+      setUser(userState);
+
+      if (loading) {
+        setLoading(false);
+      }
+    });
+  }, []);
   return (
     <NavigationContainer>
       <DrawerNavigator/>

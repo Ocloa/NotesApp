@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TextInput, Pressable, Alert } from 'react-native'
 import { registerWithEmailPassword, createNotesCollectionForUser } from '../authService';
 import React, { useState } from 'react'
+import  authStore  from '../mobx/authStore';
 
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
@@ -34,7 +35,6 @@ export const RegisterForm: React.FC = () => {
   
     const handleSignUp = async () => {
       try {
-        await registerWithEmailPassword(email, password);
         Alert.alert('Registration successful');
       } catch (error) {
         Alert.alert('Registration failed');
