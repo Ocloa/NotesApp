@@ -1,10 +1,18 @@
 import { makeAutoObservable } from "mobx";
 import auth from '@react-native-firebase/auth'
-import firestore from '@react-native-firebase/firestore'
-import firebase from '@react-native-firebase/app'
+import firestore, { FieldValue } from '@react-native-firebase/firestore'
+
+interface User {
+    uid: string;
+    email: string | null;
+    displayName: string | null;
+    photoURL: string | null;
+    // Add other properties as needed
+  }
 
 class AuthStore {
-  userInfo: {email?: string, createdAt?: firebase.firestore.Timestamp} | null = null;
+  userInfo: {email?: string, createdAt?: FieldValue} | null = null;
+  user: User | null = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -12,7 +20,7 @@ class AuthStore {
             this.user = user;
             if (user) {
                 const userDoc = await firestore().collection('users').doc(user.uid).get();
-                this.userInfo = userDoc.data() || null = null;
+                this.userInfo = userDoc.data() || null
             }
         });
     }
@@ -28,7 +36,7 @@ class AuthStore {
         const userCredential = await auth().createUserWithEmailAndPassword(email, password);
         const user = userCredential.user;
 
-        await firestore().collection('users').doc(user.uid).collection('notes');
+        await firestore().collection('users').doc(email).collection('notes');
     }
 }
 const authStore = new AuthStore();

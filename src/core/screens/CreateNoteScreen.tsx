@@ -22,6 +22,7 @@ const CreateNoteScreen = observer(() => {
 
   const handleSubmit = async () => {
     const user = authStore.user;
+    console.log(user)
     if (user) {
       await notesStore.addNote({
         title,
@@ -44,7 +45,7 @@ const CreateNoteScreen = observer(() => {
         </TextInput>
         <DropDownPicker open={open} value={status} items={items} setOpen={setOpen} setValue={setStatus} setItems={setItems}></DropDownPicker>
         </View>
-        <Text onPress={()=>{handleSubmit; Alert.alert('Заметка сохранена', 'Заметка успешно сохранена')}} >Сохранить</Text>
+        <Text onPress={()=>{handleSubmit(); Alert.alert('Заметка сохранена', 'Заметка успешно сохранена')}} >Сохранить</Text>
       </View>
 )}
 )

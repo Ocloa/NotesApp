@@ -7,7 +7,7 @@
 
 import React, {useEffect, useState} from 'react';
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerItem } from '@react-navigation/drawer';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
@@ -17,16 +17,24 @@ import CreateNoteScreen from './core/screens/CreateNoteScreen';
 import LoginScreen from './core/screens/LoginScreen';
 import RegisterScreen from './core/screens/RegisterScreen';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { observer } from 'mobx-react-lite';
+import authStore from './core/mobx/authStore';
 
 const Drawer = createDrawerNavigator();
 
+type DrawerContentNavigationProp = StackNavigationProp<any>;
 
-function CustomDrawerContent(props: any){
+interface CustomDrawerContentProps {
+  navigation: DrawerContentNavigationProp;
+}
 
+
+const CustomDrawerContent = observer(({ navigation }: CustomDrawerContentProps) => {
   return (
-    <DrawerContentScrollView style={{backgroundColor: '#EFF1F3', flex:1}} {...props}>
+    <DrawerContentScrollView style={{backgroundColor: '#EFF1F3', flex:1}}>
       <View>
-        <Text>*User Info*</Text>
+        <Text>{authStore.user?.email}</Text>
       </View>
       <View style={styles.menuContainer}>
         <View
@@ -40,7 +48,7 @@ function CustomDrawerContent(props: any){
                 labelStyle={{color: '#EFF1F3'}}
                 style={{flex: 1}}
                 onPress={() => {
-                  props.navigation.navigate('Home');
+                  navigation.navigate('Home');
                 }}
               />
             </View>
@@ -56,7 +64,7 @@ function CustomDrawerContent(props: any){
                 labelStyle={{color: '#EFF1F3'}}
                 style={{flex: 1}}
                 onPress={() => {
-                  props.navigation.navigate('New Note');
+                  navigation.navigate('New Note');
                 }}
               />
             </View>
@@ -72,7 +80,7 @@ function CustomDrawerContent(props: any){
                 labelStyle={{color: '#EFF1F3'}}
                 style={{flex: 1}}
                 onPress={() => {
-                  props.navigation.navigate('Login');
+                  navigation.navigate('Login');
                 }}
               />
             </View>
@@ -88,7 +96,7 @@ function CustomDrawerContent(props: any){
                 labelStyle={{color: '#EFF1F3'}}
                 style={{flex: 1}}
                 onPress={() => {
-                  props.navigation.navigate('Register');
+                  navigation.navigate('Register');
                 }}
               />
             </View>
@@ -101,11 +109,11 @@ function CustomDrawerContent(props: any){
       </Pressable>
     </DrawerContentScrollView>
   );
-};
+})
 
 function DrawerNavigator(){
   return(
-    <Drawer.Navigator drawerContent={ (props) => <CustomDrawerContent {...props}/>} initialRouteName="Home">
+    <Drawer.Navigator drawerContent={ (props) => <CustomDrawerContent navigation={useNavigation()}/>} initialRouteName="Home">
       <Drawer.Screen name="Home" component={FeedScreen} options={{title: "Главная страница"}}/>
       <Drawer.Screen name="New Note" component={CreateNoteScreen} options={{title: "Новая заметка"}}/>
       <Drawer.Screen name='Login' component={LoginScreen} options={{title: "Авторизация"}}/>
