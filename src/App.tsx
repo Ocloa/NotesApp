@@ -103,7 +103,7 @@ const CustomDrawerContent = observer(({ navigation }: CustomDrawerContentProps) 
         </View>
       </View>
       <Pressable style={{position:'absolute', bottom: 0,}}>
-        <Text>
+        <Text onPress={authStore.logout}>
           Logout
         </Text>
       </Pressable>
@@ -115,7 +115,7 @@ function DrawerNavigator(){
   return(
     <Drawer.Navigator drawerContent={ (props) => <CustomDrawerContent navigation={useNavigation()}/>} initialRouteName="Home">
       <Drawer.Screen name="Home" component={FeedScreen} options={{title: "Главная страница"}}/>
-      <Drawer.Screen name="New Note" component={CreateNoteScreen} options={{title: "Новая заметка"}}/>
+      <Drawer.Screen name="New Note" component={CreateNoteScreen} options={{title: "Новая заметка"}} initialParams={{noteId: ''}}/>
       <Drawer.Screen name='Login' component={LoginScreen} options={{title: "Авторизация"}}/>
       <Drawer.Screen name='Register' component={RegisterScreen} options={{title: "Регистрация"}}/>
     </Drawer.Navigator>

@@ -1,16 +1,20 @@
 import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import DropDownPicker from 'react-native-dropdown-picker';
 import { observer } from 'mobx-react-lite'
-import { getFirestore } from '@react-native-firebase/firestore'
-import auth from '@react-native-firebase/auth'
 import { notesStore } from '../mobx/notesStore';
 import  authStore  from '../mobx/authStore';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
+interface RouteParams {
+  noteId: string;
+}
 
 //@ts-ignore
 const CreateNoteScreen = observer(() => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { noteId } = route.params! as RouteParams || {};
   const [title, setTitle] = React.useState('title');
   const [content, setContent] = React.useState('');
   const [open, setOpen] = React.useState(false);
@@ -20,21 +24,32 @@ const CreateNoteScreen = observer(() => {
     {label: 'Выполнено', value: 'complete'}
   ]);
 
+  useEffect(() => {
+    if (noteId) {
+      const note = notesStore.notes.find(note => note.id === noteId);
+      if (note){
+        setTitle(note.title);
+        setContent(note.content);
+        setStatus(note.status);
+      }
+    }
+  }, [noteId]);
+
   const handleSubmit = async () => {
     const user = authStore.user;
     console.log(user)
-    if (user) {
+    if (!noteId && user?.email) {
       await notesStore.addNote({
         title,
         content,
         status,
-        userId: user.uid,
+        email: user.email,
         createdAt: new Date()
       });
-      setTitle('');
-      setContent('');
-      setStatus('incomplete');
-      navigation.goBack()
+      navigation.goBack();
+    } else if (user && noteId) {
+      await notesStore.updateNote(user.email!, noteId, {title, content, status});
+      navigation.goBack();
     }
   };
     return(
