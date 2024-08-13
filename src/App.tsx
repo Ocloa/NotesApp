@@ -25,18 +25,38 @@ const Drawer = createDrawerNavigator();
 
 type DrawerContentNavigationProp = StackNavigationProp<any>;
 
+export type RootStackParamList = {
+  Home: undefined;
+  NewNote: undefined;
+  Login: undefined;
+  Register: undefined;
+  // Add other routes as needed
+};
+
 interface CustomDrawerContentProps {
   navigation: DrawerContentNavigationProp;
 }
 
 
 const CustomDrawerContent = observer(({ navigation }: CustomDrawerContentProps) => {
+
+  function navigateIfAuthenticated(screenName: keyof RootStackParamList, params = {}) {
+    if (!authStore.isAuthenticated) {
+      // Перенаправление на экран авторизации, если пользователь не авторизован
+      navigation.navigate('Login', { screen: 'Register' }); // Пример навигации на экран регистрации после входа
+    } else {
+      // Навигация на запрошенный экран, если пользователь авторизован
+      navigation.navigate(screenName, params);
+    }
+  }
   return (
     <DrawerContentScrollView style={{backgroundColor: '#EFF1F3', flex:1}}>
       <View>
-        <Text>{authStore.user?.email}</Text>
+        <Text style={styles.emailText}>{authStore.user?.email}</Text>
       </View>
       <View style={styles.menuContainer}>
+      {authStore.isAuthenticated && (     
+        <>
         <View
           style={[
             styles.menuItemsCard,
@@ -48,7 +68,7 @@ const CustomDrawerContent = observer(({ navigation }: CustomDrawerContentProps) 
                 labelStyle={{color: '#EFF1F3'}}
                 style={{flex: 1}}
                 onPress={() => {
-                  navigation.navigate('Home');
+                  navigateIfAuthenticated('Home');
                 }}
               />
             </View>
@@ -64,49 +84,69 @@ const CustomDrawerContent = observer(({ navigation }: CustomDrawerContentProps) 
                 labelStyle={{color: '#EFF1F3'}}
                 style={{flex: 1}}
                 onPress={() => {
-                  navigation.navigate('New Note');
+                  navigateIfAuthenticated('NewNote');
                 }}
               />
             </View>
-        </View>
+        </View> 
+        </> 
+         )}
         <View
           style={[
             styles.menuItemsCard,
             { backgroundColor: '#304F5F' },
           ]}>
+            {!authStore.isAuthenticated && (
             <View style={{flex:1}}>
-              <DrawerItem
-                label="Log in"
-                labelStyle={{color: '#EFF1F3'}}
-                style={{flex: 1}}
-                onPress={() => {
-                  navigation.navigate('Login');
-                }}
-              />
-            </View>
+            <DrawerItem
+              label="Log in"
+              labelStyle={{color: '#EFF1F3'}}
+              style={{flex: 1}}
+              onPress={() => {
+                navigation.navigate('Login');
+              }}
+            />
+          </View>
+            )}
         </View>
+        {!authStore.isAuthenticated && (
         <View
-          style={[
-            styles.menuItemsCard,
-            { backgroundColor: '#304F5F' },
-          ]}>
-            <View style={{flex:1}}>
-              <DrawerItem
-                label="Register"
-                labelStyle={{color: '#EFF1F3'}}
-                style={{flex: 1}}
-                onPress={() => {
-                  navigation.navigate('Register');
-                }}
-              />
-            </View>
-        </View>
+        style={[
+          styles.menuItemsCard,
+          { backgroundColor: '#304F5F' },
+        ]}>
+          <View style={{flex:1}}>
+            <DrawerItem
+              label="Register"
+              labelStyle={{color: '#EFF1F3'}}
+              style={{flex: 1}}
+              onPress={() => {
+                navigation.navigate('Register');
+              }}
+            />
+          </View>
       </View>
-      <Pressable style={{position:'absolute', bottom: 0,}}>
-        <Text onPress={authStore.logout}>
-          Logout
-        </Text>
-      </Pressable>
+        )}
+        {authStore.isAuthenticated && (
+          <View
+          style={[
+            styles.menuItemsCard,
+            { backgroundColor: '#304F5F' },
+          ]}>
+            <View style={{flex:1}}>
+            <DrawerItem
+              label="Logout"
+              labelStyle={{color: '#EFF1F3'}}
+              style={{flex: 1}}
+              onPress={() => {
+                authStore.logout()
+                navigation.navigate('Login')}}
+            />
+            </View>
+        </View>
+        )}
+
+      </View>
     </DrawerContentScrollView>
   );
 })
@@ -115,7 +155,7 @@ function DrawerNavigator(){
   return(
     <Drawer.Navigator drawerContent={ (props) => <CustomDrawerContent navigation={useNavigation()}/>} initialRouteName="Home">
       <Drawer.Screen name="Home" component={FeedScreen} options={{title: "Главная страница"}}/>
-      <Drawer.Screen name="New Note" component={CreateNoteScreen} options={{title: "Новая заметка"}} initialParams={{noteId: ''}}/>
+      <Drawer.Screen name="NewNote" component={CreateNoteScreen} options={{title: "Новая заметка"}} initialParams={{noteId: ''}}/>
       <Drawer.Screen name='Login' component={LoginScreen} options={{title: "Авторизация"}}/>
       <Drawer.Screen name='Register' component={RegisterScreen} options={{title: "Регистрация"}}/>
     </Drawer.Navigator>
@@ -158,6 +198,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  logoutButton: {
+    position: 'relative',
+    marginTop: 10,
+    width: '100%',
+    paddingVertical: 10,
+    backgroundColor: '#304F5F',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logoutButtonText: {
+    color: '#EFF1F3',
+    fontSize: 16,
+  },
+  emailText: {
+    padding: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#304F5F',
   },
 });
 export default App;

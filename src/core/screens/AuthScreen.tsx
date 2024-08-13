@@ -22,6 +22,8 @@ useEffect(() => {
   translateX.value = withTiming(isLogin ? 0 : -width, { duration: 500, easing: Easing.inOut(Easing.ease), });
  }, [isLogin]);
 
+
+
 const toggleForm = () => {
   setIsLogin(!isLogin)
 }

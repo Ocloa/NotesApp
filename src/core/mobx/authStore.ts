@@ -11,8 +11,9 @@ interface User {
   }
 
 class AuthStore {
-  userInfo: {email?: string, createdAt?: FieldValue} | null = null;
-  user: User | null = null;
+    isAuthenticated: boolean = false
+    userInfo: {email?: string, createdAt?: FieldValue} | null = null;
+    user: User | null = null;
 
     constructor() {
         makeAutoObservable(this);
@@ -21,8 +22,17 @@ class AuthStore {
             if (user) {
                 const userDoc = await firestore().collection('users').doc(user.uid).get();
                 this.userInfo = userDoc.data() || null
+                this.isAuthenticated = true;
+            }
+            else {
+                this.isAuthenticated = false;
+                this.actionSetIsAuthenticated
             }
         });
+    }
+
+    actionSetIsAuthenticated(value: boolean){
+        this.isAuthenticated = value;
     }
 
     login = async (email : string, password: string) => {

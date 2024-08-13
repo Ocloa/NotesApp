@@ -35,13 +35,3 @@ export async function createNotesCollectionForUser(email: string) {
       console.error("Error creating notes collection for user:", error);
     }
   }
-         /*   await firestore.collection('users').doc(user.uid).set({
-                email: user.email,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            });
-            await firestore.collection('users').doc(user.uid).collection('notes').add({
-                title: 'Welcome Note',
-                content: 'This is your first note!',
-                status: 'incomplete',
-                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            }) */
