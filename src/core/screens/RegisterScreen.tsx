@@ -2,15 +2,21 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, Alert, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { registerWithEmailPassword } from '../authService';
 import LinearGradient from 'react-native-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
+import {RootStackParamList} from '../../App';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
   const handleSignUp = async () => {
     try {
       await registerWithEmailPassword(email, password);
-      Alert.alert('Registration successful');
+      Alert.alert('Регистрация прошла успешно');
+      navigation.navigate('Home')
     } catch (error) {
       Alert.alert('Registration failed');
     }

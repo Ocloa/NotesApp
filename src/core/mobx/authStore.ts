@@ -35,18 +35,9 @@ class AuthStore {
         this.isAuthenticated = value;
     }
 
-    login = async (email : string, password: string) => {
-        await auth().signInWithEmailAndPassword(email, password);
-    };
     logout = async () => {
         await auth().signOut();
         this.userInfo = null;
-    }
-    signup = async (email: string, password: string) => {
-        const userCredential = await auth().createUserWithEmailAndPassword(email, password);
-        const user = userCredential.user;
-
-        await firestore().collection('users').doc(email).collection('notes');
     }
 }
 const authStore = new AuthStore();

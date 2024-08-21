@@ -14,6 +14,7 @@ class NotesStore {
     notes: Note[] = [];
     isLoading: boolean = false;
     isRefreshing: boolean = false;
+    filteredNotes: Note[] = [];
     error = '';
     
     constructor() {
@@ -21,6 +22,7 @@ class NotesStore {
             fetchNotes: action,
             setLoading: action,
             setError: action,
+            setFilteredNotes: action,
         })
     }
     setLoading(isLoading: boolean) {
@@ -31,7 +33,14 @@ class NotesStore {
     }
     setNotes(notes: Note[]) {
         this.notes = notes;
-      }
+    }
+    setFilteredNotes(notes: Note[]) {
+      this.filteredNotes = notes;
+    }
+    clearFilter() {
+      this.filteredNotes = this.notes;
+    }
+
     
     async fetchNotes(email: string) {
         this.setLoading(true);

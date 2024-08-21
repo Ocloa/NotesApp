@@ -16,7 +16,7 @@ const NoteItem: React.FC<NoteItemProps> = ({note, onSelect}) => {
         <Text style={{position: 'absolute', top: 0, padding:10, fontSize: 16}}>{note.title}</Text>
         <Text style={{position: 'absolute', padding: 10, fontSize: 12}}>{note.content}</Text>
         <Text style={{position: 'absolute', bottom: 0, right:0, padding: 10, fontSize: 10}}>Статус:
-          {<Text style={{color: note.status === 'complete' ? 'green' : 'red'}} > { note.status}</Text>}
+          {<Text style={{color: note.status === 'Выполнено' ? 'green' : 'red'}} > { note.status}</Text>}
         </Text>
     </Pressable>
   );

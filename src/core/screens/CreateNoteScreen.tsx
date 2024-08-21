@@ -5,8 +5,10 @@ import { observer } from 'mobx-react-lite'
 import { notesStore } from '../mobx/notesStore';
 import  authStore  from '../mobx/authStore';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 interface RouteParams {
+  mode: string;
   noteId: string;
 }
 
@@ -14,15 +16,27 @@ interface RouteParams {
 const CreateNoteScreen = observer(() => {
   const navigation = useNavigation();
   const route = useRoute();
-  const { noteId } = route.params! as RouteParams || {};
-  const [title, setTitle] = React.useState('title');
+  const { mode, noteId } = route.params! as RouteParams || {};
+  const [title, setTitle] = React.useState('Заголовок');
   const [content, setContent] = React.useState('');
   const [open, setOpen] = React.useState(false);
-  const [status, setStatus] = React.useState('Incomplete');
+  const [status, setStatus] = React.useState('Не выполнено');
   const [items, setItems] = React.useState([
-    {label: 'Не выполнено', value: 'incomplete'},
-    {label: 'Выполнено', value: 'complete'}
+    {label: 'Не выполнено', value: 'Не выполнено'},
+    {label: 'Выполнено', value: 'Выполнено'}
   ]);
+
+  useEffect(() => {
+    if (mode === 'edit' && noteId) {
+      navigation.setOptions({
+        title: 'Редактировать заметку',
+      });
+    } else {
+      navigation.setOptions({
+        title: 'Новая заметка',
+      });
+    }
+  }, [mode, noteId])
 
   useEffect(() => {
     if (noteId) {
@@ -37,7 +51,6 @@ const CreateNoteScreen = observer(() => {
 
   const handleSubmit = async () => {
     const user = authStore.user;
-    console.log(user)
     if (!noteId && user?.email) {
       await notesStore.addNote({
         title,
@@ -46,9 +59,11 @@ const CreateNoteScreen = observer(() => {
         email: user.email,
         createdAt: new Date()
       });
+      await notesStore.fetchNotes(user.email);
       navigation.goBack();
     } else if (user && noteId) {
       await notesStore.updateNote(user.email!, noteId, {title, content, status});
+      await notesStore.fetchNotes(user.email!);
       navigation.goBack();
     }
   };
@@ -60,7 +75,11 @@ const CreateNoteScreen = observer(() => {
         </TextInput>
         <DropDownPicker open={open} value={status} items={items} setOpen={setOpen} setValue={setStatus} setItems={setItems}></DropDownPicker>
         </View>
-        <Text onPress={()=>{handleSubmit(); Alert.alert('Заметка сохранена', 'Заметка успешно сохранена')}} >Сохранить</Text>
+        <TouchableOpacity style={{borderColor: 'white', borderWidth: 1, padding: 15, paddingHorizontal: 100}} onPress={()=>{handleSubmit(); Alert.alert('Заметка сохранена', 'Заметка успешно сохранена')}} >
+          <Text>
+            Сохранить
+          </Text>
+        </TouchableOpacity>
       </View>
 )}
 )

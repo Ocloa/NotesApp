@@ -30,7 +30,6 @@ export type RootStackParamList = {
   NewNote: undefined;
   Login: undefined;
   Register: undefined;
-  // Add other routes as needed
 };
 
 interface CustomDrawerContentProps {
@@ -153,7 +152,7 @@ const CustomDrawerContent = observer(({ navigation }: CustomDrawerContentProps) 
 
 function DrawerNavigator(){
   return(
-    <Drawer.Navigator drawerContent={ (props) => <CustomDrawerContent navigation={useNavigation()}/>} initialRouteName="Home">
+    <Drawer.Navigator drawerContent={ () => <CustomDrawerContent navigation={useNavigation()}/>} initialRouteName="Home">
       <Drawer.Screen name="Home" component={FeedScreen} options={{title: "Главная страница"}}/>
       <Drawer.Screen name="NewNote" component={CreateNoteScreen} options={{title: "Новая заметка"}} initialParams={{noteId: ''}}/>
       <Drawer.Screen name='Login' component={LoginScreen} options={{title: "Авторизация"}}/>

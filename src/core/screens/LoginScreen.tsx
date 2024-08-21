@@ -24,7 +24,7 @@ const LoginScreen: React.FC = () => {
       await signInWithEmailPassword(email, password);
       setEmail('');
       setPassword('');
-      Alert.alert('Login successful');
+      Alert.alert('Авторизация прошла успешно');
       navigation.navigate('Home')
     } catch (error) {
       Alert.alert('Login failed');
@@ -64,7 +64,11 @@ const LoginScreen: React.FC = () => {
 
   return (
     <View style={{flex:1,  justifyContent: 'center', alignItems: 'center', backgroundColor: '#F1F8F9'}}>
-      <LinearGradient colors={['#F1F8F1', '#F1F8F9']} start={{x: 0, y:0.5}} style={{flex:0.5, borderRadius: 10, width:'100%', justifyContent: 'center', alignItems: 'center'}}>
+      <LinearGradient
+        colors={['#F1F8F1', '#F1F8F9']}
+        start={{x: 0, y:0.5}}
+        style={{flex:0.5, borderRadius: 10, width:'100%', justifyContent: 'center', alignItems: 'center'}}
+        >
       <View style={{ borderWidth: 2, borderColor: '#FFFFFF', borderRadius: 10, flex:1, flexDirection: 'column', width: '70%', justifyContent: 'center', alignItems:'center', gap:15, backgroundColor:'rgba(255, 241, 243, 0.5)'}}>
       <TextInput placeholder="Email" value={email} onChangeText={setEmail} style={styles.AuthInput} />
       <TextInput placeholder="Password" value={password} onChangeText={setPassword} style={styles.AuthInput} secureTextEntry />

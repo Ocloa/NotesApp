@@ -10,22 +10,16 @@ import { notesStore } from '../mobx/notesStore';
 import React, { useRef, useEffect, useState } from 'react'
 import { StackNavigationProp } from '@react-navigation/stack';
 
-
 import {observer} from 'mobx-react-lite'
 import authStore  from '../mobx/authStore';
-
-interface NotesListProps {
-  userId: string;
-}
-
+import { reaction } from 'mobx';
 interface FeedScreenProps {
   navigation: StackNavigationProp<any>;
 }
 
 const FeedScreen = observer(({navigation}: FeedScreenProps) => {
-  const FlatListRef = useRef<FlatList>(null)
   const [refreshing, setRefreshing] = useState(false);
-  const [selectedNote, setSelectedNote] = useState<{id: string} | null>(null);
+  const [query, setQuery] = useState('');
 
   const handleRefresh = () => {
     setRefreshing(true);
@@ -35,12 +29,24 @@ const FeedScreen = observer(({navigation}: FeedScreenProps) => {
     } else {
       console.error('User email is null')
     }
+  };
 
+  const styles = StyleSheet.create({
+    itemContainer: {
+      flex: 1,
+      margin: 5
+    },
+    listStyle: {
+      width: '100%',
+    }
+  })
+
+  const handleSearch = (text: string) => {
+    setQuery(text);
   };
 
   const handleNoteSelect = (noteId: string) => {
-    console.log(`Selected note ID: ${noteId}`);
-    navigation.navigate('New Note', {noteId})
+    navigation.navigate('NewNote', {noteId, mode: 'edit'})
   };
 
   useEffect(() => {
@@ -51,16 +57,30 @@ const FeedScreen = observer(({navigation}: FeedScreenProps) => {
   }, []);
 
   useEffect(() => {
-    console.log('Refreshing state:', refreshing);
-  }, [refreshing])
+    const filteredNotes = notesStore.notes.filter(note =>
+      note.title.toLowerCase().includes(query.toLowerCase())
+    );
+    notesStore.setFilteredNotes(filteredNotes);
+  }, [query]);
+
+  useEffect(() => {
+    const dispose = reaction(
+      () => notesStore.notes,
+      (notes) => {
+        notesStore.setFilteredNotes(notes)
+      }
+    );
+  
+    return dispose;
+  }, []);
 
   
   return(
     <View style={{flex: 1, alignItems: 'center', padding: 5, gap: 10, backgroundColor: '#F1F8F9' }}>
-      <SearchBar/>
+      <SearchBar onSearch={handleSearch}/>
       <FlatList
       style={styles.listStyle}
-      data={notesStore.notes}
+      data={notesStore.filteredNotes}
       keyExtractor={(item) => item.id!}
       renderItem={({item}) => (
         <NoteItem note={item} onSelect={handleNoteSelect}/>
@@ -69,16 +89,6 @@ const FeedScreen = observer(({navigation}: FeedScreenProps) => {
       refreshing={refreshing}/> 
     </View>
   )
-})
+});
 
 export default FeedScreen
-
-const styles = StyleSheet.create({
-  itemContainer: {
-    flex: 1,
-    margin: 5
-  },
-  listStyle: {
-    width: '100%',
-  }
-})
