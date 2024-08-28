@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Note } from '../mobx/notesStore';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
+import { Text, StyleSheet, Pressable} from 'react-native';
 
 interface NoteItemProps{
   note: Note;

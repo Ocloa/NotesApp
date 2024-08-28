@@ -73,12 +73,10 @@ class NotesStore {
     
       async updateNote(email: string, noteId: string, updatedNote: Partial<Note>) {
         await firestore().collection('users').doc(email).collection('notes').doc(noteId).update(updatedNote);
-        // Аналогично добавлению заметки, после обновления можно обновить список заметок или просто обновить заметку в текущем списке
-      }
+            }
     
       async deleteNote(email: string, noteId: string) {
         await firestore().collection('users').doc(email).collection('notes').doc(noteId).delete();
-        // И после удаления заметки можно обновить список заметок
       }
 }
 

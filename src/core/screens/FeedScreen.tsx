@@ -7,7 +7,7 @@ import {
 import NoteItem from '../components/NoteItem'
 import SearchBar from '../components/SearchBar';
 import { notesStore } from '../mobx/notesStore';
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import {observer} from 'mobx-react-lite'

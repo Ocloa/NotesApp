@@ -1,23 +1,16 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, {useEffect, useState} from 'react';
 
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createDrawerNavigator, DrawerItem } from '@react-navigation/drawer';
-import { DrawerContentScrollView } from '@react-navigation/drawer';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { createDrawerNavigator, DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { View, Text, StyleSheet } from 'react-native';
 
 import FeedScreen from '../src/core/screens/FeedScreen'
 import CreateNoteScreen from './core/screens/CreateNoteScreen';
 import LoginScreen from './core/screens/LoginScreen';
 import RegisterScreen from './core/screens/RegisterScreen';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { StackNavigationProp } from '@react-navigation/stack';
+
 import { observer } from 'mobx-react-lite';
 import authStore from './core/mobx/authStore';
 
@@ -42,7 +35,7 @@ const CustomDrawerContent = observer(({ navigation }: CustomDrawerContentProps) 
   function navigateIfAuthenticated(screenName: keyof RootStackParamList, params = {}) {
     if (!authStore.isAuthenticated) {
       // Перенаправление на экран авторизации, если пользователь не авторизован
-      navigation.navigate('Login', { screen: 'Register' }); // Пример навигации на экран регистрации после входа
+      navigation.navigate('Login', { screen: 'Register' })
     } else {
       // Навигация на запрошенный экран, если пользователь авторизован
       navigation.navigate(screenName, params);

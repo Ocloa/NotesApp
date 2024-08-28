@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, Text } from 'react-native';
+import { View, TextInput, Alert, StyleSheet, Text } from 'react-native';
 import { signInWithEmailPassword } from '../authService';
 import { useNavigation } from '@react-navigation/native';
 import {RootStackParamList} from '../../App';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, TextInput, Alert, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { registerWithEmailPassword } from '../authService';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
